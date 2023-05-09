@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garage Dimension Recommender</title>
+</head>
+<body>
+    <h1>Garage Dimension Recommender</h1>
+    <form action="/" method="post">
+        <label for="occupancy_rate">Target Occupancy Rate:</label>
+        <input type="text" id="occupancy_rate" name="occupancy_rate" value="{{ occupancy_rate }}" required>
+        <br>
+        <label for="levels">Parking Levels:</label>
+        <input type="text" id="levels" name="levels" value="{{ levels }}" required>
+        <br>
+        <input type="submit" value="Calculate">
+    </form>
+    {% if dimensions %}
+    <h2>Recommended Garage Dimensions</h2>
+    <p>Levels: {{ dimensions.Levels }}</p>
+    <p>Cars per level: {{ dimensions['Cars per level'] }}</p>
+    <p>Motorbikes per level: {{ dimensions['Motorbikes per level'] }}</p>
+    {% endif %}
+</body>
+</html>
