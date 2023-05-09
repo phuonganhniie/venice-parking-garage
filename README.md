@@ -31,18 +31,22 @@ pip install -r requirements.txt
 ## Usage
 1. Prepare a CSV file with the historical usage data. The file should have the following columns: `Date`, `Cars in`, `Cars out`, `Motorbikes in`, `Motorbikes out`.
 
-2. Run the `app.py` script with the appropriate command-line arguments:
+2. Run the `app.py` for run the application:
 ```
-python src/main.py --input_file data.csv --target_occupancy_rate 0.7 --levels 3
+python app.py
 ```
-- `--input_file`: Path to the input CSV file containing the historical parking data.
-- `--target_occupancy_rate`: Target occupancy rate (between 0 and 1). Default is 0.8.
-- `--levels`: Number of parking levels. Default is 1.
 
-3. The script will output the recommended garage dimensions in the following format: 
-```
-Garage dimensions: {'Levels': 3, 'Cars per level': 450, 'Motorbikes per level': 94}
-```
+3. Open your web browser and navigate to `http://localhost:5000`.
+
+4. Upload your CSV file containing the historical data.
+
+5. Enter the desired occupancy rate (between 0 and 1) and the number of parking levels (greater than or equal to 1).
+
+6. Click "Submit" to calculate the recommended garage dimensions.
+
+7. The results will be displayed on the same page.
+
+`Note: If the provided CSV file does not have the required columns, an error message will be displayed. Ensure that your CSV file has the correct format before uploading it.`
 
 ## Project Structure
 The project consists of the following modules:

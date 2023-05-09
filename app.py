@@ -6,22 +6,18 @@ from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from io import StringIO
 
-# Add this after the CSV_FILE_PATH variable
 DATA_FOLDER = 'data'
 ALLOWED_EXTENSIONS = {'csv'}
-
-# CSV_FILE_PATH = "data/historical_data.csv"
 
 app = Flask(__name__)
 app.config['DATA_FOLDER'] = DATA_FOLDER
 
-# Add this function to check if the uploaded file is a CSV file
+# Check if the uploaded file is a CSV file
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def calculate_garage_dimensions(occupancy_rate, parking_levels, data):
     # Read and process data
-    # data = dp.read_data(csv_file_path)
     daily_usage = dp.calculate_daily_usage(data)
 
     # Analyze data
@@ -40,9 +36,18 @@ def index():
     if request.method == 'POST':
         try:
             occupancy_rate = float(request.form['occupancy_rate'])
+            if occupancy_rate <= 0 or occupancy_rate > 1:
+                error_message = "Invalid input values. Please input occupancy rate in range greater than 0 and less than 1."
+                return render_template('index.html', error_message=error_message, occupancy_rate=0.8, levels=1)
+            
             parking_levels = int(request.form['levels'])
+            if parking_levels <= 1:
+                error_message = "Invalid input values. Please input garage levels at least 1."
+                return render_template('index.html', error_message=error_message, occupancy_rate=0.8, levels=1)
+                
         except ValueError:
             error_message = "Invalid input values. Please provide valid numbers."
+            
         else:
             # Check if a file is uploaded
             if 'csv_file' not in request.files:
@@ -60,7 +65,7 @@ def index():
                     # Check if the required columns are present in the uploaded file
                     required_columns = ['Date', 'Cars in', 'Cars out', 'Motorbikes in', 'Motorbikes out']
                     if not all(column in uploaded_data.columns for column in required_columns):
-                        error_message = "Invalid CSV file. The file must have the following columns: `Date`, `Cars in`, `Cars out`, `Motorbikes in`, `Motorbikes out`."
+                        error_message = "Invalid CSV file. The file must have the required columns: `Date`, `Cars in`, `Cars out`, `Motorbikes in`, `Motorbikes out`."
                     else:  
                         # if uploaded_file and allowed_file(uploaded_file.filename):
                         #     filename = secure_filename(uploaded_file.filename)

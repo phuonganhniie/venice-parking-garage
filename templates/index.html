@@ -11,10 +11,11 @@
 </head>
 <body>
     <div class="container">
+        <br>
         <h1>Garage Dimension Recommender</h1>
         <form action="/" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="csv_file">CSV File</label>
+                <label for="csv_file">Upload your CSV File</label>
                 <input type="file" name="csv_file" class="form-control-file">
             </div>
             <br>
@@ -24,7 +25,7 @@
             </div>
             <br>
             <div class="form-group">
-                <label for="levels">Parking Levels</label>
+                <label for="levels">Garage Levels</label>
                 <input type="text" name="levels" value="{{ levels }}" class="form-control" required>
             </div>
             <br>
