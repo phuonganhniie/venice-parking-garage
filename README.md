@@ -71,6 +71,7 @@ venice_parking_garage/
 ├── tests/
 │   ├── __init__.py
 │   ├── test_analysis.py
+│   ├── test_data_processing.py
 │   └── test_recommendations.py
 │
 ├── app.py
@@ -83,11 +84,9 @@ venice_parking_garage/
 - `main.py`: This module serves as the entry point for the project. It reads the input data, processes it, performs analysis, calculates recommendations, and displays the results.
 
 ## Testing
-Unit tests are provided for `analysis.py` and `recommendations.py`. To run the tests, execute the following commands:
+Unit tests are provided for `analysis.py` , `data_processing.py` and `recommendations.py`. To run the tests, execute the following commands:
 ```
 python -m unittest tests/test_analysis.py
+python -m unittest tests/test_data_processing.py
 python -m unittest tests/test_recommendations.py
 ```
-
-## License
-This project is licensed under the [MIT License](LICENSE).

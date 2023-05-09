@@ -16,6 +16,12 @@ def preprocess_data(data):
     return data
 
 def calculate_daily_usage(data):
+    # data['Cars'] = data['Cars in'] - data['Cars out']
+    # data['Cars'] = data['Cars'].clip(lower=0)
+    
+    # data['Motorbikes'] = data['Motorbikes in'] - data['Motorbikes out']
+    # data['Motorbikes'] = data['Motorbikes'].clip(lower=0)
+    
     data['Cars'] = data['Cars in']
     data['Cars'] = data['Cars'].clip(lower=0)
     
