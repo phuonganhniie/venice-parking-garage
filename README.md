@@ -40,7 +40,7 @@ python app.py
 
 4. Upload your CSV file containing the historical data.
 
-5. Enter the desired occupancy rate (between 0 and 1) and the number of parking levels (greater than or equal to 1).
+5. Enter the desired occupancy rate (between 0 and 1) and the number of garage levels (greater than or equal to 1).
 
 6. Click "Submit" to calculate the recommended garage dimensions.
 
