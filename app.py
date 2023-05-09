@@ -86,7 +86,7 @@ def index():
         
         # Read the uploaded CSV file
         csv_content = StringIO(uploaded_file.read().decode('utf-8'))
-        uploaded_data = pd.read_csv(csv_content)
+        uploaded_data = pd.read_csv(csv_content) 
         
         # Check if the required columns are present in the uploaded file
         required_columns = ['Date', 'Cars in', 'Cars out', 'Motorbikes in', 'Motorbikes out']
