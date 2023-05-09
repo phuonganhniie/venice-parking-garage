@@ -27,6 +27,7 @@ cd venice_parking_garage
 ```
 pip install -r requirements.txt
 ```
+**Note**: It is recommended to install the required project packages from `requirements.txt` within a Python virtual environment to avoid potential conflicts with other packages on your system.
 
 ## Usage
 1. Prepare a CSV file with the historical usage data. The file should have the following columns: `Date`, `Cars in`, `Cars out`, `Motorbikes in`, `Motorbikes out`.
