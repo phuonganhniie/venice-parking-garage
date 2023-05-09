@@ -7,7 +7,10 @@
 </head>
 <body>
     <h1>Garage Dimension Recommender</h1>
-    <form action="/" method="post">
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="csv_file">Upload CSV File:</label>
+        <input type="file" id="csv_file" name="csv_file" accept=".csv">
+        <br>
         <label for="occupancy_rate">Target Occupancy Rate:</label>
         <input type="text" id="occupancy_rate" name="occupancy_rate" value="{{ occupancy_rate }}" required>
         <br>

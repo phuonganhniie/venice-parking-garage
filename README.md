@@ -1,11 +1,18 @@
 # Garage Dimension Recommender
 This project aims to recommend optimal garage dimensions based on the analysis of historical usage data. It takes into account the average and peak daily demand for cars and motorbikes and suggests a suitable number of levels, cars per level, and motorbikes per level to meet the target occupancy rate.
 
+## Features
+- Reads and processes historical garage usage data.
+- Calculates average daily demand and peak daily demand for cars and motorbikes.
+- Recommends garage dimensions based on target occupancy rate and number of levels.
+- Simple web interface to input target occupancy rate and number of levels, and displays the recommended garage dimensions.
+
 ## Getting Started
 ### Prerequisites
 - Python 3.6 or higher
 - pandas
 - numpy
+- Flask
 
 ### Installation
 1. Clone this repository:
@@ -24,7 +31,7 @@ pip install -r requirements.txt
 ## Usage
 1. Prepare a CSV file with the historical usage data. The file should have the following columns: `Date`, `Cars in`, `Cars out`, `Motorbikes in`, `Motorbikes out`.
 
-2. Run the `main.py` script with the appropriate command-line arguments:
+2. Run the `app.py` script with the appropriate command-line arguments:
 ```
 python src/main.py --input_file data.csv --target_occupancy_rate 0.7 --levels 3
 ```
@@ -49,14 +56,17 @@ venice_parking_garage/
 │   ├── __init__.py
 │   ├── data_processing.py
 │   ├── analysis.py
-│   ├── recommendations.py
-│   └── main.py
+│   └── recommendations.py
+│
+├── templates/
+│   └── index.html
 │
 ├── tests/
 │   ├── __init__.py
 │   ├── test_analysis.py
 │   └── test_recommendations.py
 │
+├── app.py
 ├── README.md
 └── requirements.txt
 ```

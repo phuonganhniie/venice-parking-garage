@@ -28,14 +28,27 @@
     
 #     main(args)
 
+import os
+import pandas as pd
 import src.data_processing as dp
 import src.analysis as an
 import src.recommendations as rec
 from flask import Flask, render_template, request
+from werkzeug.utils import secure_filename
+from io import StringIO
 
-CSV_FILE_PATH = "data/historical_data.csv"
+# Add this after the CSV_FILE_PATH variable
+DATA_FOLDER = 'data'
+ALLOWED_EXTENSIONS = {'csv'}
+
+# CSV_FILE_PATH = "data/historical_data.csv"
 
 app = Flask(__name__)
+app.config['DATA_FOLDER'] = DATA_FOLDER
+
+# Add this function to check if the uploaded file is a CSV file
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def calculate_garage_dimensions(occupancy_rate, parking_levels, csv_file_path):
     # Read and process data
@@ -55,13 +68,37 @@ def calculate_garage_dimensions(occupancy_rate, parking_levels, csv_file_path):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        # Read target occupancy rate and number of levels
         try:
             occupancy_rate = float(request.form['occupancy_rate'])
             parking_levels = int(request.form['levels'])
         except ValueError:
             return "Invalid input values. Please provide valid numbers."
+        
+        # Check if a file is uploaded
+        if 'csv_file' not in request.files:
+            return "No file part. Please upload a CSV file."
+        
+        uploaded_file = request.files['csv_file']
+        
+        if uploaded_file.filename == '':
+            return "No selected file. Please upload a CSV file."
+        
+        # Read the uploaded CSV file
+        csv_content = StringIO(uploaded_file.read().decode('utf-8'))
+        uploaded_data = pd.read_csv(csv_content)
+        
+        # Check if the required columns are present in the uploaded file
+        required_columns = ['Date', 'Cars in', 'Cars out', 'Motorbikes in', 'Motorbikes out']
+        if not all(column in uploaded_data.columns for column in required_columns):
+            return "Invalid CSV file. The file must have the following columns: `Date`, `Cars in`, `Cars out`, `Motorbikes in`, `Motorbikes out`."
+        
+        if uploaded_file and allowed_file(uploaded_file.filename):
+            filename = secure_filename(uploaded_file.filename)
+            file_path = os.path.join(app.config['DATA_FOLDER'], filename)
+            uploaded_file.save(file_path)
 
-        garage_dimensions = calculate_garage_dimensions(occupancy_rate, parking_levels, CSV_FILE_PATH)
+        garage_dimensions = calculate_garage_dimensions(occupancy_rate, parking_levels, file_path)
         return render_template('index.html', dimensions=garage_dimensions, occupancy_rate=occupancy_rate, levels=parking_levels)
     else:
         return render_template('index.html', occupancy_rate=0.8, levels=1)
