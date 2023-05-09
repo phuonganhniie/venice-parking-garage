@@ -36,7 +36,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-3. Open your web browser and navigate to `http://localhost:5000`.
+3. Open your web browser and navigate to `http://127.0.0.1:5000`.
 
 4. Upload your CSV file containing the historical data.
 
@@ -47,6 +47,9 @@ python app.py
 7. The results will be displayed on the same page.
 
 `Note: If the provided CSV file does not have the required columns, an error message will be displayed. Ensure that your CSV file has the correct format before uploading it.`
+
+### Target Occupancy Rate
+The `Target Occupancy Rate` input field is the desired percentage of the garage's total capacity that should be occupied at any given time. It balances the trade-offs between cost, customer satisfaction, and parking availability. A lower occupancy rate results in more available slots but a larger, potentially costlier garage. A higher occupancy rate leads to fewer available slots, a smaller garage, but may cause longer waiting times for parking. Input your desired `Target Occupancy Rate`, and the system will calculate the optimal number of slots for cars and motorbikes.
 
 ## Project Structure
 The project consists of the following modules:

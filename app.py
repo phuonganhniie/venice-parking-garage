@@ -16,8 +16,9 @@ app.config['DATA_FOLDER'] = DATA_FOLDER
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def calculate_garage_dimensions(occupancy_rate, parking_levels, data):
+def calculate_garage_dimensions(occupancy_rate, parking_levels, preprocess_data):
     # Read and process data
+    data = dp.preprocess_data(preprocess_data)
     daily_usage = dp.calculate_daily_usage(data)
 
     # Analyze data
@@ -25,8 +26,11 @@ def calculate_garage_dimensions(occupancy_rate, parking_levels, data):
     peak_daily_demand = an.calculate_peak_daily_demand(daily_usage)
 
     # Calculate recommendations
-    slots = rec.calculate_slots(average_daily_demand, peak_daily_demand, occupancy_rate)
-    garage_dimensions = rec.recommend_garage_dimensions(slots, parking_levels)
+    try:
+        slots = rec.calculate_slots(average_daily_demand, peak_daily_demand, occupancy_rate)
+        garage_dimensions = rec.recommend_garage_dimensions(slots, parking_levels)
+    except ValueError as e:
+        return str(e)
 
     return garage_dimensions
 
@@ -36,17 +40,18 @@ def index():
     if request.method == 'POST':
         try:
             occupancy_rate = float(request.form['occupancy_rate'])
-            if occupancy_rate <= 0 or occupancy_rate > 1:
+            if occupancy_rate <= 0 or occupancy_rate >= 1:
                 error_message = "Invalid input values. Please input occupancy rate in range greater than 0 and less than 1."
                 return render_template('index.html', error_message=error_message, occupancy_rate=0.8, levels=1)
             
             parking_levels = int(request.form['levels'])
-            if parking_levels <= 1:
+            if parking_levels < 1:
                 error_message = "Invalid input values. Please input garage levels at least 1."
                 return render_template('index.html', error_message=error_message, occupancy_rate=0.8, levels=1)
                 
-        except ValueError:
-            error_message = "Invalid input values. Please provide valid numbers."
+        except ValueError as e:
+            # error_message = "Invalid input values. Please provide valid numbers."
+            return str(e)
             
         else:
             # Check if a file is uploaded

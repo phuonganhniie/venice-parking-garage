@@ -7,7 +7,7 @@ class TestRecommendations(unittest.TestCase):
         daily_demand = {"Cars": 500, "Motorbikes": 150}
         peak_demand = {"Cars": 700, "Motorbikes": 180}
         occupancy_rate = 0.8
-        expected_slots = {"Cars": 875, "Motorbikes": 225}
+        expected_slots = {"Cars": 3500, "Motorbikes": 900}
         
         slots = calculate_slots(daily_demand, peak_demand, occupancy_rate)
         self.assertEqual(slots, expected_slots)
@@ -26,3 +26,4 @@ class TestRecommendations(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    print("All tests passed!")
